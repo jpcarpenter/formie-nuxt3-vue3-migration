@@ -1,0 +1,58 @@
+{
+  "compilerOptions": {
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "jsx": "preserve",
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment",
+    "paths": {
+      "#imports": [
+        "/Users/jacobcarpenter/Documents/Resources/Dev/formie-nuxt3-vue3-migration/.nuxt/types/nitro-imports"
+      ],
+      "#paths": [
+        "/Users/jacobcarpenter/Documents/Resources/Dev/formie-nuxt3-vue3-migration/node_modules/nuxt/dist/core/runtime/nitro/paths"
+      ],
+      "~": [
+        "/Users/jacobcarpenter/Documents/Resources/Dev/formie-nuxt3-vue3-migration"
+      ],
+      "~/*": [
+        "/Users/jacobcarpenter/Documents/Resources/Dev/formie-nuxt3-vue3-migration/*"
+      ],
+      "@": [
+        "/Users/jacobcarpenter/Documents/Resources/Dev/formie-nuxt3-vue3-migration"
+      ],
+      "@/*": [
+        "/Users/jacobcarpenter/Documents/Resources/Dev/formie-nuxt3-vue3-migration/*"
+      ],
+      "~~": [
+        "/Users/jacobcarpenter/Documents/Resources/Dev/formie-nuxt3-vue3-migration"
+      ],
+      "~~/*": [
+        "/Users/jacobcarpenter/Documents/Resources/Dev/formie-nuxt3-vue3-migration/*"
+      ],
+      "@@": [
+        "/Users/jacobcarpenter/Documents/Resources/Dev/formie-nuxt3-vue3-migration"
+      ],
+      "@@/*": [
+        "/Users/jacobcarpenter/Documents/Resources/Dev/formie-nuxt3-vue3-migration/*"
+      ],
+      "assets": [
+        "/Users/jacobcarpenter/Documents/Resources/Dev/formie-nuxt3-vue3-migration/assets"
+      ],
+      "public": [
+        "/Users/jacobcarpenter/Documents/Resources/Dev/formie-nuxt3-vue3-migration/public"
+      ]
+    }
+  },
+  "include": [
+    "/Users/jacobcarpenter/Documents/Resources/Dev/formie-nuxt3-vue3-migration/.nuxt/types/nitro-nuxt.d.ts",
+    "./types/nitro.d.ts",
+    "../**/*",
+    "../server/**/*"
+  ]
+}
