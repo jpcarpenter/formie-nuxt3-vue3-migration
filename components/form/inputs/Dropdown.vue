@@ -5,8 +5,8 @@
     <IncludesFieldInstructions :field="field" position="above-input" />
 
     <select
-      :id="useId()"
-      :name="useName()"
+      :id="getId()"
+      :name="getName()"
       :multiple="field.multiple"
       :required="field.required"
       class="block w-full py-2 pl-3 pr-10 mt-1 text-base border-gray-300 focus:outline-none focus:border-blue-100 sm:text-sm"
@@ -27,5 +27,12 @@
 </template>
 
 <script setup>
-const { field, useId, useName } = useFieldMixin();
+const { getId, getName } = useFieldMixin();
+
+const props = defineProps({
+  field: {
+    type: Object,
+    default: Object,
+  },
+});
 </script>
