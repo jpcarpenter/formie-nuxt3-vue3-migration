@@ -12,7 +12,7 @@
           <strong>{{ form.pages.length }}</strong>
         </p>
       </div>
-      <Alert
+      <FormAlert
         v-if="alertState"
         :state="alertState"
         :success-text="form.settings.submitActionMessageHtml"
