@@ -19,6 +19,7 @@
 import gql from "graphql-tag";
 import { FormDataJson } from "form-data-json-convert";
 import { flatMap, isPlainObject } from "lodash-es";
+import { useReCaptcha } from 'vue-recaptcha-v3';
 
 function getFormFieldMeta(form) {
   const allRows = flatMap(form.pages, "rows");
@@ -63,6 +64,7 @@ function createMutationValues(form) {
 
 export function useFormMutation(form) {
   const mutation = ref(null);
+  const { executeRecaptcha, recaptchaLoaded } = useReCaptcha()
 
   function generateFormMutation() {
     const mutationTypes = createMutationTypes(form);
@@ -78,7 +80,7 @@ export function useFormMutation(form) {
     `;
   }
 
-  function getMutationVariables(el) {
+  async function getMutationVariables(el) {
     const object = FormDataJson.formToJson(el);
 
     // Get the mutation types to ensure we cast everything properly
@@ -137,8 +139,18 @@ export function useFormMutation(form) {
       };
     });
 
+    // Wait until reCAPTCHA has been loaded.
+    await recaptchaLoaded()
+
+    // Execute reCAPTCHA with action "login".
+    const recaptchaToken = await executeRecaptcha('login')
+
+    // Add reCAPTCHA token to the object
+    object['recaptcha'] = recaptchaToken
+
     return object;
   }
+  
 
   mutation.value = generateFormMutation();
 
