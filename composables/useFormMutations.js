@@ -19,7 +19,19 @@
 import gql from "graphql-tag";
 import { FormDataJson } from "form-data-json-convert";
 import { flatMap, isPlainObject } from "lodash-es";
-import { useReCaptcha } from 'vue-recaptcha-v3';
+import { useReCaptcha } from "vue-recaptcha-v3";
+
+function upsert(array, element) {
+  const i = array.findIndex((el) => {
+    return el.handle === element.handle;
+  });
+
+  if (i > -1) {
+    array[i] = element;
+  } else {
+    array.push(element);
+  }
+}
 
 function getFormFieldMeta(form) {
   const allRows = flatMap(form.pages, "rows");
@@ -64,7 +76,7 @@ function createMutationValues(form) {
 
 export function useFormMutation(form) {
   const mutation = ref(null);
-  const { executeRecaptcha, recaptchaLoaded } = useReCaptcha()
+  const { executeRecaptcha, recaptchaLoaded } = useReCaptcha();
 
   function generateFormMutation() {
     const mutationTypes = createMutationTypes(form);
@@ -80,8 +92,22 @@ export function useFormMutation(form) {
     `;
   }
 
-  async function getMutationVariables(el) {
-    const object = FormDataJson.formToJson(el);
+  async function getMutationVariables(form, formRef) {
+    const object = FormDataJson.formToJson(formRef);
+
+    // Wait until reCAPTCHA has been loaded.
+    await recaptchaLoaded();
+
+    // Execute reCAPTCHA with action "login".
+    const recaptchaToken = await executeRecaptcha("login");
+
+    // Add it to the form variables so it can be prepped. Be sure to check if it already
+    // included in the form data (submitting multiple times in a single request)
+    upsert(form.captchas, {
+      handle: "recaptchaCaptcha",
+      name: "g-recaptcha-response",
+      value: recaptchaToken,
+    });
 
     // Get the mutation types to ensure we cast everything properly
     const mutationTypes = getFormFieldMeta(form);
@@ -139,18 +165,8 @@ export function useFormMutation(form) {
       };
     });
 
-    // Wait until reCAPTCHA has been loaded.
-    await recaptchaLoaded()
-
-    // Execute reCAPTCHA with action "login".
-    const recaptchaToken = await executeRecaptcha('login')
-
-    // Add reCAPTCHA token to the object
-    object['recaptcha'] = recaptchaToken
-
     return object;
   }
-  
 
   mutation.value = generateFormMutation();
 
