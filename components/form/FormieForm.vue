@@ -142,7 +142,7 @@ const onSubmit = async (e) => {
     return;
   }
 
-  const formData = await getMutationVariables(formRef.value);
+  const formData = await getMutationVariables(props.form, formRef.value);
   const formMutation = getFormMutation;
 
   try {
@@ -175,25 +175,15 @@ const onSuccess = (response) => {
   if (props.form.settings.submitAction === "message") {
     alertState.value = "success";
   }
+
   formRef.value.reset();
 };
 </script>
 
 <style lang="scss" scoped>
-/**
- * ⚠️⚠️⚠️ Place these commented out styles in your main stylesheet (I can't get them to work here)⚠️⚠️⚠️
- */
 // input {
 //   @apply block w-full mt-1 border-gray-300 shadow-sm focus:border-blue-100 sm:text-sm;
 // }
-// [data-formie-input-error] {
-//   @apply text-red-900 placeholder-red-300 border-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500;
-// }
-
-// [data-formie-error-text] {
-//   @apply mt-2 text-sm text-red-600;
-// }
-
 .loading {
   @apply relative pointer-events-none;
 
